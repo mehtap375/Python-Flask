@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}
+Market
+{% endblock %}
+{% block content %}
+
+<div class="row" style="margin-top:20px; margin-left:20px">
+   <div class="col-8">
+       <h2>Markette Bulunan Ürünler</h2>
+       <p>Satın almaya başlamak için öğelerden birine tıklayın</p>
+       <br>
+      <table class="table table-hover table-light">
+         <thead>
+            <tr>
+               <!-- Sütunlar BURADA -->
+               <th scope="col">ID</th>
+               <th scope="col">İsim</th>
+               <th scope="col">Barkod</th>
+               <th scope="col">Fiyat</th>
+               <th scope="col">Seçenekler</th>
+            </tr>
+         </thead>
+         <tbody>
+            <!-- Tablonun içindeki satırlar BURADA: -->
+            {% for item in items %}
+            {% include 'includes/items_modals.html' %}
+            <tr>
+               <td>{{ item.id }}</td>
+               <td>{{ item.name }}</td>
+               <td>{{ item.barcode }}</td>
+               <td>{{ item.price }}$</td>
+               <td>
+                  <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">Daha fazla bilgi</button>
+                  <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">Bu Ürünü Satın Al</button>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   <div class="col-4">
+        <h2>Sahip olunan öğeler</h2>
+        <p>Bir öğeyi markete geri koymak için öğeyi sat'a tıklayın</p>
+        <br>
+        <div class="row">
+           {% for owned_item in owned_items %}
+           {% include 'includes/owned_items_modals.html' %}
+             <div class="col-md-6">
+                 <div style="margin-bottom: 5px" class="card text-center bg-light">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ owned_item.name }}</h5>
+                          <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px"
+                                  data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_item.id }}">
+                              Bu ürünü sat
+                          </button>
+                          <p class="card-text"><strong>
+                              Bu öğenin fiyatı {{ owned_item.price }}$
+                          </strong></p>
+                      </div>
+                  </div>
+             </div>
+           {% endfor %}
+        </div>
+   </div>
+</div>
+{% endblock %}
